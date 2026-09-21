@@ -5,7 +5,7 @@ plotly==7.0.0
 pydeck==0.9.3
 scikit-learn==1.9.1
 joblib==1.6.0
-opencv-python==5.0.0.93
+opencv-python-headless
 faiss-cpu==1.15.0
 sentence-transformers==6.0.1
 transformers==5.17.0
