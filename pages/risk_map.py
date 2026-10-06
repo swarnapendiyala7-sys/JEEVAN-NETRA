@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
+import geopandas as gpd
 from pathlib import Path
 
-from src.ui_theme import apply_theme
+from src.ui_theme import apply_theme, render_sidebar
 
 
 # ============================================================
@@ -17,6 +18,7 @@ st.set_page_config(
 )
 
 apply_theme()
+render_sidebar()
 
 
 # ============================================================
@@ -26,8 +28,6 @@ apply_theme()
 st.markdown(
     """
     <style>
-
-    /* Risk Map page */
 
     .stApp {
         background:
@@ -43,8 +43,6 @@ st.markdown(
             ),
             #0b1220;
     }
-
-    /* Smooth native metric cards */
 
     div[data-testid="stMetric"] {
         background:
@@ -84,9 +82,6 @@ st.markdown(
         font-weight: 850 !important;
     }
 
-
-    /* Select box */
-
     div[data-baseweb="select"] > div {
         background:
             rgba(13, 29, 48, 0.96) !important;
@@ -109,9 +104,6 @@ st.markdown(
             0 0 18px rgba(0, 180, 255, 0.08);
     }
 
-
-    /* Map area */
-
     div[data-testid="stDeckGlJsonChart"] {
         border:
             1px solid rgba(76, 195, 255, 0.20);
@@ -123,9 +115,6 @@ st.markdown(
         box-shadow:
             0 14px 40px rgba(0, 0, 0, 0.18);
     }
-
-
-    /* Data table */
 
     div[data-testid="stDataFrame"] {
         border:
@@ -139,9 +128,6 @@ st.markdown(
             0 10px 30px rgba(0, 0, 0, 0.14);
     }
 
-
-    /* Expander */
-
     div[data-testid="stExpander"] {
         background:
             rgba(14, 30, 49, 0.75) !important;
@@ -151,9 +137,6 @@ st.markdown(
 
         border-radius: 16px !important;
     }
-
-
-    /* Chart */
 
     div[data-testid="stVegaLiteChart"] {
         background:
@@ -170,9 +153,6 @@ st.markdown(
             0 10px 28px rgba(0, 0, 0, 0.12);
     }
 
-
-    /* Buttons */
-
     .stButton > button {
         border-radius: 11px;
 
@@ -188,9 +168,6 @@ st.markdown(
         box-shadow:
             0 8px 22px rgba(0, 170, 255, 0.12);
     }
-
-
-    /* Divider */
 
     hr {
         border: none !important;
@@ -225,9 +202,14 @@ DATA_PATH = (
     / "risk_fusion_features.csv"
 )
 
+SATELLITE_ROAD_FILE = (
+    BASE_DIR
+    / "vijayawada_road_risk_scored.geojson"
+)
+
 
 # ============================================================
-# LOAD DATA
+# LOAD HISTORICAL RISK DATA
 # ============================================================
 
 @st.cache_data
@@ -236,9 +218,11 @@ def load_data():
 
 
 try:
+
     df = load_data()
 
 except Exception as e:
+
     st.error("Unable to load Risk Fusion data.")
     st.code(str(e))
     st.stop()
@@ -379,7 +363,7 @@ st.caption(
 )
 
 st.info(
-    "🛰️ Risk Intelligence Engine Active • "
+    "🛡️ Risk Intelligence Engine Active • "
     "State-level monitoring mode"
 )
 
@@ -387,7 +371,7 @@ st.divider()
 
 
 # ============================================================
-# SUMMARY METRICS
+# HISTORICAL SUMMARY METRICS
 # ============================================================
 
 critical_count = (
@@ -409,28 +393,36 @@ low_count = (
 
 col1, col2, col3, col4 = st.columns(4)
 
+
 with col1:
+
     st.metric(
         "🔴 Critical",
         f"{critical_count:,}",
         "Immediate attention"
     )
 
+
 with col2:
+
     st.metric(
         "🟠 High",
         f"{high_count:,}",
         "Priority monitoring"
     )
 
+
 with col3:
+
     st.metric(
         "🟡 Moderate",
         f"{moderate_count:,}",
         "Routine monitoring"
     )
 
+
 with col4:
+
     st.metric(
         "🟢 Low",
         f"{low_count:,}",
@@ -442,10 +434,10 @@ st.divider()
 
 
 # ============================================================
-# INTERACTIVE MAP
+# INTERACTIVE COMMUNITY RISK MAP
 # ============================================================
 
-st.subheader("🛰️ Interactive Community Risk Map")
+st.subheader("🛡️ Interactive Community Risk Map")
 
 st.caption(
     "Each marker represents the highest historical risk "
@@ -593,7 +585,7 @@ st.bar_chart(
 
 
 # ============================================================
-# HIGH-RISK RECORDS
+# HIGH-RISK HISTORICAL RECORDS
 # ============================================================
 
 st.subheader("🚨 High-Risk Historical Records")
@@ -623,9 +615,15 @@ else:
         "Recommended_Action"
     ]
 
+    available_columns = [
+        column
+        for column in display_columns
+        if column in high_risk_df.columns
+    ]
+
     st.dataframe(
         high_risk_df[
-            display_columns
+            available_columns
         ]
         .sort_values(
             "Risk_Fusion_Score",
@@ -640,6 +638,293 @@ else:
 
 
 # ============================================================
+# SATELLITE + ROAD INTELLIGENCE
+# ============================================================
+
+st.divider()
+
+st.subheader("🛰️ Satellite & Road Intelligence")
+
+st.caption(
+    "Satellite-derived environmental risk evidence "
+    "combined with real-world OpenStreetMap road data."
+)
+
+
+# ============================================================
+# LOAD SATELLITE ROAD DATA
+# ============================================================
+
+@st.cache_data
+def load_satellite_roads(path):
+
+    return gpd.read_file(path)
+
+
+if SATELLITE_ROAD_FILE.exists():
+
+    try:
+
+        satellite_roads = load_satellite_roads(
+            SATELLITE_ROAD_FILE
+        )
+
+    except Exception as e:
+
+        satellite_roads = None
+
+        st.error(
+            "Unable to load satellite road-risk data."
+        )
+
+        st.code(str(e))
+
+else:
+
+    satellite_roads = None
+
+
+# ============================================================
+# SATELLITE DATA DISPLAY
+# ============================================================
+
+if satellite_roads is None:
+
+    st.info(
+        "Satellite road-risk data is not available. "
+        "Run the satellite risk pipeline first."
+    )
+
+else:
+
+    satellite_total = len(
+        satellite_roads
+    )
+
+    satellite_critical = len(
+        satellite_roads[
+            satellite_roads["risk_level"] == "CRITICAL"
+        ]
+    )
+
+    satellite_high = len(
+        satellite_roads[
+            satellite_roads["risk_level"] == "HIGH"
+        ]
+    )
+
+    satellite_medium = len(
+        satellite_roads[
+            satellite_roads["risk_level"] == "MEDIUM"
+        ]
+    )
+
+    satellite_low = len(
+        satellite_roads[
+            satellite_roads["risk_level"] == "LOW"
+        ]
+    )
+
+
+    # ========================================================
+    # SATELLITE METRICS
+    # ========================================================
+
+    st.markdown(
+        "**Vijayawada Satellite Study Area**"
+    )
+
+    sat_col1, sat_col2, sat_col3, sat_col4, sat_col5 = (
+        st.columns(5)
+    )
+
+
+    with sat_col1:
+
+        st.metric(
+            "Roads Analyzed",
+            f"{satellite_total:,}"
+        )
+
+
+    with sat_col2:
+
+        st.metric(
+            "Critical",
+            f"{satellite_critical:,}"
+        )
+
+
+    with sat_col3:
+
+        st.metric(
+            "High",
+            f"{satellite_high:,}"
+        )
+
+
+    with sat_col4:
+
+        st.metric(
+            "Medium",
+            f"{satellite_medium:,}"
+        )
+
+
+    with sat_col5:
+
+        st.metric(
+            "Low",
+            f"{satellite_low:,}"
+        )
+
+
+    # ========================================================
+    # INTERPRETATION WARNING
+    # ========================================================
+
+    st.warning(
+        "⚠️ These are satellite-derived risk-evidence "
+        "associations, not confirmed flooded roads. "
+        "Field verification is recommended before official "
+        "emergency action."
+    )
+
+
+    # ========================================================
+    # SATELLITE ROAD-RISK DISTRIBUTION
+    # ========================================================
+
+    st.markdown(
+        "### 📊 Satellite Road-Risk Distribution"
+    )
+
+
+    satellite_distribution = (
+        satellite_roads["risk_level"]
+        .value_counts()
+        .reindex(
+            [
+                "CRITICAL",
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+            ],
+            fill_value=0
+        )
+    )
+
+
+    st.bar_chart(
+        satellite_distribution,
+        width="stretch"
+    )
+
+
+    # ========================================================
+    # HIGH-PRIORITY SATELLITE ROADS
+    # ========================================================
+
+    st.markdown(
+        "### 🚨 Satellite-Derived High-Priority Roads"
+    )
+
+
+    satellite_priority = satellite_roads[
+        satellite_roads["risk_level"].isin(
+            [
+                "CRITICAL",
+                "HIGH"
+            ]
+        )
+    ].copy()
+
+
+    if satellite_priority.empty:
+
+        st.success(
+            "No high-priority road evidence found."
+        )
+
+    else:
+
+        satellite_columns = [
+            "name",
+            "highway",
+            "normalized_risk",
+            "risk_level"
+        ]
+
+
+        available_satellite_columns = [
+            column
+            for column in satellite_columns
+            if column in satellite_priority.columns
+        ]
+
+
+        satellite_table = (
+            satellite_priority[
+                available_satellite_columns
+            ]
+            .sort_values(
+                "normalized_risk",
+                ascending=False
+            )
+            .head(20)
+            .copy()
+        )
+
+
+        satellite_table = satellite_table.rename(
+            columns={
+                "name": "Road",
+                "highway": "Road Type",
+                "normalized_risk": "Risk Score",
+                "risk_level": "Risk Level"
+            }
+        )
+
+
+        if "Risk Score" in satellite_table.columns:
+
+            satellite_table["Risk Score"] = (
+                satellite_table["Risk Score"]
+                .round(2)
+            )
+
+
+        st.dataframe(
+            satellite_table,
+            width="stretch",
+            hide_index=True
+        )
+
+
+    # ========================================================
+    # DETAILED SATELLITE PAGE
+    # ========================================================
+
+    st.markdown(
+        "### 🔬 Detailed Satellite Intelligence"
+    )
+
+    st.write(
+        "Explore Sentinel-1 radar evidence, risk zones, "
+        "road-level scoring and authority alerts."
+    )
+
+
+    if st.button(
+        "🛰️ Open Satellite Intelligence"
+    ):
+
+        st.switch_page(
+            "pages/satellite_intelligence.py"
+        )
+
+
+# ============================================================
 # INFORMATION
 # ============================================================
 
@@ -649,21 +934,31 @@ with st.expander(
 
     st.write(
         """
-        JEEVAN-NETRA currently combines historical rainfall
-        risk and historical flood occurrence.
+        JEEVAN-NETRA combines historical rainfall risk
+        and historical flood occurrence for the broader
+        community risk intelligence layer.
 
-        The system produces four risk levels:
+        The system produces four historical risk levels:
 
         LOW
         MODERATE
         HIGH
         CRITICAL
 
-        The geographical coordinates used here are
-        representative state-level coordinates.
+        The geographical coordinates used in the historical
+        map are representative state-level coordinates.
 
         They are used for visualization and do not represent
         the exact location of an individual flood event.
+
+        The Satellite & Road Intelligence section is a
+        separate spatial evidence layer based on Sentinel-1
+        radar observations, rainfall context and OpenStreetMap
+        road data.
+
+        Satellite-derived road risk is decision-support
+        evidence and should be verified using field
+        observations and official information.
         """
     )
 

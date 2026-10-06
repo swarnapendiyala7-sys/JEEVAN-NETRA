@@ -19,8 +19,7 @@ if str(BASE_DIR) not in sys.path:
 # =========================================================
 
 from src.ai_rag import JEEVANAI
-from src.ui_theme import apply_theme
-
+from src.ui_theme import apply_theme, render_sidebar
 
 # =========================================================
 # PAGE CONFIGURATION
@@ -39,7 +38,7 @@ st.set_page_config(
 # =========================================================
 
 apply_theme()
-
+render_sidebar()
 
 # =========================================================
 # JEEVAN AI SPECIAL PAGE THEME

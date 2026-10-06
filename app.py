@@ -5,8 +5,7 @@ import plotly.express as px
 
 from src.risk_engine import calculate_risk
 from src.ai_rag import JEEVANAI
-from src.ui_theme import apply_theme
-
+from src.ui_theme import apply_theme, render_sidebar
 
 # ============================================================
 # PAGE CONFIG
@@ -14,12 +13,14 @@ from src.ui_theme import apply_theme
 
 st.set_page_config(
     page_title="JEEVAN-NETRA 2.0",
-    page_icon="🛡️",
+    page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
 apply_theme()
+render_sidebar()
+
 
 # ============================================================
 # JEEVAN-NETRA VISUAL THEME
@@ -30,7 +31,7 @@ st.markdown(
     <style>
 
     /* ========================================================
-       MAIN PAGE - DARK NAVY INSTEAD OF PURE BLACK
+       MAIN PAGE
        ======================================================== */
 
     .stApp {
@@ -51,10 +52,8 @@ st.markdown(
                 transparent 35%
             ),
             #0b1220;
-
         color: #edf7ff;
     }
-
 
     /* ========================================================
        MAIN CONTENT
@@ -65,7 +64,6 @@ st.markdown(
         padding-top: 2rem;
         padding-bottom: 4rem;
     }
-
 
     /* ========================================================
        SIDEBAR
@@ -78,10 +76,8 @@ st.markdown(
                 #101d31 0%,
                 #0a1424 100%
             );
-
         border-right:
             1px solid rgba(70, 190, 255, 0.18);
-
         box-shadow:
             8px 0 35px rgba(0, 0, 0, 0.18);
     }
@@ -90,6 +86,11 @@ st.markdown(
         padding-top: 1.5rem;
     }
 
+    /* Hide Streamlit automatic page navigation */
+    section[data-testid="stSidebar"]
+    div[data-testid="stSidebarNav"] {
+        display: none;
+    }
 
     /* ========================================================
        HEADINGS
@@ -97,7 +98,6 @@ st.markdown(
 
     h1 {
         font-weight: 800 !important;
-
         background:
             linear-gradient(
                 90deg,
@@ -105,7 +105,6 @@ st.markdown(
                 #61d8ff,
                 #8c9cff
             );
-
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -121,7 +120,6 @@ st.markdown(
         color: #b7c9dc;
     }
 
-
     /* ========================================================
        METRIC CARDS
        ======================================================== */
@@ -133,18 +131,13 @@ st.markdown(
                 rgba(24, 46, 74, 0.92),
                 rgba(12, 27, 47, 0.95)
             );
-
         border:
             1px solid rgba(75, 195, 255, 0.20);
-
         border-radius: 18px;
-
         padding: 20px;
-
         box-shadow:
             0 10px 35px rgba(0, 0, 0, 0.18),
             inset 0 1px 0 rgba(255, 255, 255, 0.03);
-
         transition:
             transform 0.2s ease,
             border-color 0.2s ease,
@@ -153,10 +146,8 @@ st.markdown(
 
     div[data-testid="stMetric"]:hover {
         transform: translateY(-3px);
-
         border-color:
             rgba(70, 210, 255, 0.55);
-
         box-shadow:
             0 15px 40px rgba(0, 170, 255, 0.12);
     }
@@ -171,24 +162,19 @@ st.markdown(
         font-weight: 800 !important;
     }
 
-
     /* ========================================================
        ALERT / INFO CARDS
        ======================================================== */
 
     div[data-testid="stAlert"] {
         border-radius: 15px !important;
-
         background:
             rgba(18, 38, 62, 0.82) !important;
-
         border:
             1px solid rgba(80, 190, 255, 0.18) !important;
-
         box-shadow:
             0 8px 25px rgba(0, 0, 0, 0.14);
     }
-
 
     /* ========================================================
        TEXT INPUT
@@ -198,14 +184,10 @@ st.markdown(
     textarea {
         background:
             rgba(14, 29, 48, 0.96) !important;
-
         color: #f2f9ff !important;
-
         border:
             1px solid rgba(80, 180, 255, 0.22) !important;
-
         border-radius: 12px !important;
-
         transition:
             border-color 0.2s ease,
             box-shadow 0.2s ease;
@@ -215,11 +197,9 @@ st.markdown(
     textarea:focus {
         border-color:
             rgba(60, 205, 255, 0.65) !important;
-
         box-shadow:
             0 0 0 3px rgba(40, 190, 255, 0.08) !important;
     }
-
 
     /* ========================================================
        SELECT BOX
@@ -228,13 +208,10 @@ st.markdown(
     div[data-baseweb="select"] > div {
         background:
             rgba(14, 29, 48, 0.96) !important;
-
         border-radius: 12px !important;
-
         border:
             1px solid rgba(80, 180, 255, 0.22) !important;
     }
-
 
     /* ========================================================
        BUTTONS
@@ -247,16 +224,11 @@ st.markdown(
                 #123858,
                 #10243b
             );
-
         color: #eaf8ff;
-
         border:
             1px solid rgba(70, 195, 255, 0.30);
-
         border-radius: 11px;
-
         font-weight: 600;
-
         transition:
             transform 0.2s ease,
             border-color 0.2s ease,
@@ -265,14 +237,11 @@ st.markdown(
 
     .stButton > button:hover {
         transform: translateY(-2px);
-
         border-color:
             rgba(80, 210, 255, 0.65);
-
         box-shadow:
             0 8px 25px rgba(0, 170, 255, 0.13);
     }
-
 
     /* ========================================================
        DATAFRAME
@@ -281,15 +250,11 @@ st.markdown(
     div[data-testid="stDataFrame"] {
         border:
             1px solid rgba(80, 180, 255, 0.15);
-
         border-radius: 15px;
-
         overflow: hidden;
-
         box-shadow:
             0 8px 30px rgba(0, 0, 0, 0.16);
     }
-
 
     /* ========================================================
        SIDEBAR LINKS
@@ -297,7 +262,6 @@ st.markdown(
 
     section[data-testid="stSidebar"] a {
         border-radius: 9px;
-
         transition:
             background 0.18s ease,
             transform 0.18s ease;
@@ -306,10 +270,8 @@ st.markdown(
     section[data-testid="stSidebar"] a:hover {
         background:
             rgba(50, 170, 240, 0.10);
-
         transform: translateX(3px);
     }
-
 
     /* ========================================================
        DIVIDERS
@@ -317,9 +279,7 @@ st.markdown(
 
     hr {
         border: none !important;
-
         height: 1px !important;
-
         background:
             linear-gradient(
                 90deg,
@@ -328,7 +288,6 @@ st.markdown(
                 transparent
             );
     }
-
 
     /* ========================================================
        SCROLLBAR
@@ -348,7 +307,6 @@ st.markdown(
                 #12618a,
                 #263b72
             );
-
         border-radius: 10px;
     }
 
@@ -363,7 +321,6 @@ st.markdown(
 # ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent
-
 DATA_DIR = BASE_DIR / "data"
 PROCESSED_DIR = DATA_DIR / "processed"
 MODELS_DIR = BASE_DIR / "models"
@@ -375,7 +332,6 @@ MODELS_DIR = BASE_DIR / "models"
 
 @st.cache_data
 def load_csv(path: Path):
-
     try:
         if path.exists():
             return pd.read_csv(path)
@@ -426,7 +382,6 @@ ml_accuracy = 92.10
 # ============================================================
 
 try:
-
     risk_result = calculate_risk(
         rainfall_score=9.71,
         historical_flood_score=35.25,
@@ -437,7 +392,6 @@ try:
     )
 
 except Exception:
-
     risk_result = {
         "overall_score": 9.48,
         "risk_level": "Low",
@@ -494,9 +448,7 @@ if not risk_fusion.empty:
     found_column = None
 
     for column in possible_columns:
-
         if column in risk_fusion.columns:
-
             found_column = column
             break
 
@@ -513,133 +465,9 @@ if not risk_fusion.empty:
         for level in risk_counts:
 
             if level in counts:
-
                 risk_counts[level] = int(
                     counts[level]
                 )
-
-
-# ============================================================
-# SIDEBAR
-# ============================================================
-
-with st.sidebar:
-
-    st.title(
-        "🛡️ JEEVAN-NETRA"
-    )
-
-    st.caption(
-        "AI-Powered Community Intelligence"
-    )
-
-    st.divider()
-
-    st.success(
-        "● Platform Online"
-    )
-
-    st.caption(
-        "SYSTEM STATUS"
-    )
-
-    st.write(
-        "🧠 AI Engine — Ready"
-    )
-
-    st.write(
-        "📊 Risk Engine — Ready"
-    )
-
-    st.write(
-        "🔎 RAG Engine — Ready"
-    )
-
-    st.write(
-        "🗺️ Risk Mapping — Ready"
-    )
-
-    st.divider()
-
-    st.subheader(
-        "Navigation"
-    )
-
-    st.page_link(
-        "app.py",
-        label="Overview",
-        icon="🏠",
-    )
-
-    st.page_link(
-        "pages/risk_map.py",
-        label="Risk Map",
-        icon="🗺️",
-    )
-
-    st.page_link(
-        "pages/incidents.py",
-        label="Incidents",
-        icon="🚨",
-    )
-
-    st.page_link(
-        "pages/predictions.py",
-        label="Predictions",
-        icon="📈",
-    )
-
-    st.page_link(
-        "pages/image_intelligence.py",
-        label="Image Intelligence",
-        icon="🖼️",
-    )
-
-    st.page_link(
-        "pages/report_analyzer.py",
-        label="Report Analyzer",
-        icon="📄",
-    )
-
-    st.page_link(
-        "pages/ai_assistant.py",
-        label="JEEVAN AI",
-        icon="🤖",
-    )
-
-    st.page_link(
-        "pages/knowledge_center.py",
-        label="Knowledge Center",
-        icon="📚",
-    )
-
-    st.page_link(
-        "pages/what_if.py",
-        label="What-If Simulator",
-        icon="🧪",
-    )
-
-    st.page_link(
-        "pages/analytics.py",
-        label="Analytics",
-        icon="📊",
-    )
-
-    st.page_link(
-        "pages/settings.py",
-        label="Settings",
-        icon="⚙️",
-    )
-
-    st.divider()
-
-    st.caption(
-        "JEEVAN-NETRA 2.0"
-    )
-
-    st.caption(
-        "Community Risk & Response Intelligence"
-    )
 
 
 # ============================================================
@@ -647,7 +475,7 @@ with st.sidebar:
 # ============================================================
 
 st.title(
-    "🛡️ JEEVAN-NETRA 2.0"
+    "🛡️ JEEVAN-NETRA 2.0"
 )
 
 st.caption(
@@ -785,7 +613,7 @@ with signal4:
 # ============================================================
 
 st.subheader(
-    "🗺️ Community Risk Distribution"
+    "🗺️ Community Risk Distribution"
 )
 
 risk_df = pd.DataFrame(
@@ -908,7 +736,7 @@ else:
 # ============================================================
 
 st.subheader(
-    "⚙️ Intelligence Pipeline"
+    "⚙️ Intelligence Pipeline"
 )
 
 pipeline1, pipeline2, pipeline3, pipeline4 = st.columns(4)
@@ -1083,7 +911,7 @@ footer1, footer2 = st.columns(2)
 with footer1:
 
     st.caption(
-        "🛡️ JEEVAN-NETRA 2.0 — Community Intelligence Platform"
+        "🛡️ JEEVAN-NETRA 2.0 — Community Intelligence Platform"
     )
 
 
@@ -1092,3 +920,5 @@ with footer2:
     st.caption(
         "ML • Deep Learning • Computer Vision • NLP • RAG"
     )
+
+

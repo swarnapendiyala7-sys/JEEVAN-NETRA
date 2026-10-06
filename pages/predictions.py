@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 from pathlib import Path
 
-from src.ui_theme import apply_theme
+from src.ui_theme import apply_theme, render_sidebar
 
 
 # ============================================================
@@ -17,6 +17,7 @@ st.set_page_config(
 )
 
 apply_theme()
+render_sidebar()
 
 
 # ============================================================

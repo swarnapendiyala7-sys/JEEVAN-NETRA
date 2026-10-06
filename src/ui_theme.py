@@ -1,4 +1,4 @@
-import streamlit as st
+﻿import streamlit as st
 
 
 def apply_theme():
@@ -29,10 +29,8 @@ def apply_theme():
                     transparent 35%
                 ),
                 #0b1220;
-
             color: #edf7ff;
         }
-
 
         /* =====================================================
            TOP STREAMLIT HEADER / TOOLBAR
@@ -51,8 +49,6 @@ def apply_theme():
             background: rgba(60, 190, 255, 0.10) !important;
         }
 
-
-        /* Deploy / toolbar area */
         div[data-testid="stToolbar"] {
             background: transparent !important;
         }
@@ -60,7 +56,6 @@ def apply_theme():
         div[data-testid="stToolbar"] button {
             color: #ccecff !important;
         }
-
 
         /* =====================================================
            MAIN CONTENT
@@ -71,7 +66,6 @@ def apply_theme():
             padding-top: 2rem;
             padding-bottom: 4rem;
         }
-
 
         /* =====================================================
            SIDEBAR
@@ -84,9 +78,7 @@ def apply_theme():
                     #101d31 0%,
                     #0a1424 100%
                 );
-
             border-right: 1px solid rgba(70, 190, 255, 0.18);
-
             box-shadow:
                 8px 0 35px rgba(0, 0, 0, 0.18);
         }
@@ -95,13 +87,17 @@ def apply_theme():
             padding-top: 1.5rem;
         }
 
+        /* Hide Streamlit automatic page navigation */
+        section[data-testid="stSidebar"]
+        div[data-testid="stSidebarNav"] {
+            display: none !important;
+        }
 
         /* Sidebar text */
         section[data-testid="stSidebar"] p,
         section[data-testid="stSidebar"] label {
             color: #b7c9dc !important;
         }
-
 
         /* Sidebar links */
         section[data-testid="stSidebar"] a {
@@ -116,14 +112,12 @@ def apply_theme():
             transform: translateX(3px);
         }
 
-
         /* =====================================================
            HEADINGS
            ===================================================== */
 
         h1 {
             font-weight: 800 !important;
-
             background:
                 linear-gradient(
                     90deg,
@@ -131,7 +125,6 @@ def apply_theme():
                     #61d8ff,
                     #8c9cff
                 );
-
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -147,7 +140,6 @@ def apply_theme():
             color: #b7c9dc;
         }
 
-
         /* =====================================================
            METRIC CARDS
            ===================================================== */
@@ -159,15 +151,11 @@ def apply_theme():
                     rgba(24, 46, 74, 0.92),
                     rgba(12, 27, 47, 0.95)
                 );
-
             border: 1px solid rgba(75, 195, 255, 0.20);
-
             border-radius: 18px;
             padding: 20px;
-
             box-shadow:
                 0 10px 35px rgba(0, 0, 0, 0.18);
-
             transition:
                 transform 0.2s ease,
                 border-color 0.2s ease,
@@ -176,10 +164,8 @@ def apply_theme():
 
         div[data-testid="stMetric"]:hover {
             transform: translateY(-3px);
-
             border-color:
                 rgba(70, 210, 255, 0.55);
-
             box-shadow:
                 0 15px 40px rgba(0, 170, 255, 0.12);
         }
@@ -194,24 +180,19 @@ def apply_theme():
             font-weight: 800 !important;
         }
 
-
         /* =====================================================
            ALERTS
            ===================================================== */
 
         div[data-testid="stAlert"] {
             border-radius: 15px !important;
-
             background:
                 rgba(18, 38, 62, 0.82) !important;
-
             border:
                 1px solid rgba(80, 190, 255, 0.18) !important;
-
             box-shadow:
                 0 8px 25px rgba(0, 0, 0, 0.14);
         }
-
 
         /* =====================================================
            INPUTS
@@ -221,12 +202,9 @@ def apply_theme():
         textarea {
             background:
                 rgba(14, 29, 48, 0.96) !important;
-
             color: #f2f9ff !important;
-
             border:
                 1px solid rgba(80, 180, 255, 0.22) !important;
-
             border-radius: 12px !important;
         }
 
@@ -234,11 +212,9 @@ def apply_theme():
         textarea:focus {
             border-color:
                 rgba(60, 205, 255, 0.65) !important;
-
             box-shadow:
                 0 0 0 3px rgba(40, 190, 255, 0.08) !important;
         }
-
 
         /* =====================================================
            SELECT BOXES
@@ -247,13 +223,10 @@ def apply_theme():
         div[data-baseweb="select"] > div {
             background:
                 rgba(14, 29, 48, 0.96) !important;
-
             border-radius: 12px !important;
-
             border:
                 1px solid rgba(80, 180, 255, 0.22) !important;
         }
-
 
         /* =====================================================
            BUTTONS
@@ -266,16 +239,11 @@ def apply_theme():
                     #123858,
                     #10243b
                 );
-
             color: #eaf8ff;
-
             border:
                 1px solid rgba(70, 195, 255, 0.30);
-
             border-radius: 11px;
-
             font-weight: 600;
-
             transition:
                 transform 0.2s ease,
                 border-color 0.2s ease,
@@ -284,14 +252,11 @@ def apply_theme():
 
         .stButton > button:hover {
             transform: translateY(-2px);
-
             border-color:
                 rgba(80, 210, 255, 0.65);
-
             box-shadow:
                 0 8px 25px rgba(0, 170, 255, 0.13);
         }
-
 
         /* =====================================================
            DATAFRAMES
@@ -300,12 +265,9 @@ def apply_theme():
         div[data-testid="stDataFrame"] {
             border:
                 1px solid rgba(80, 180, 255, 0.15);
-
             border-radius: 15px;
-
             overflow: hidden;
         }
-
 
         /* =====================================================
            DIVIDERS
@@ -313,9 +275,7 @@ def apply_theme():
 
         hr {
             border: none !important;
-
             height: 1px !important;
-
             background:
                 linear-gradient(
                     90deg,
@@ -324,7 +284,6 @@ def apply_theme():
                     transparent
                 );
         }
-
 
         /* =====================================================
            SCROLLBAR
@@ -344,10 +303,8 @@ def apply_theme():
                     #12618a,
                     #263b72
                 );
-
             border-radius: 10px;
         }
-
 
         /* =====================================================
            FOOTER / STREAMLIT UI
@@ -361,3 +318,108 @@ def apply_theme():
         """,
         unsafe_allow_html=True,
     )
+
+
+def render_sidebar():
+    """
+    Render the custom JEEVAN-NETRA sidebar.
+    This replaces Streamlit's automatic multipage navigation.
+    """
+
+    with st.sidebar:
+
+        st.title("ðŸ›¡ï¸ JEEVAN-NETRA")
+
+        st.caption(
+            "AI-POWERED COMMUNITY INTELLIGENCE"
+        )
+
+        st.divider()
+
+        st.success("â— Platform Online")
+
+        st.caption("SYSTEM STATUS")
+
+        st.write("ðŸ§  AI Engine â€” Ready")
+        st.write("ðŸ“Š Risk Engine â€” Ready")
+        st.write("ðŸ”Ž RAG Engine â€” Ready")
+        st.write("ðŸ—ºï¸ Risk Mapping â€” Ready")
+
+        st.divider()
+
+        st.subheader("NAVIGATION")
+
+        st.page_link(
+            "app.py",
+            label="OVERVIEW",
+            icon="🏠",
+        )
+
+        st.page_link(
+            "pages/risk_map.py",
+            label="RISK MAP",
+            icon="ðŸ—ºï¸",
+        )
+
+        st.page_link(
+            "pages/incidents.py",
+            label="INCIDENTS",
+            icon="ðŸš¨",
+        )
+
+        st.page_link(
+            "pages/predictions.py",
+            label="PREDICTIONS",
+            icon="ðŸ“ˆ",
+        )
+
+        st.page_link(
+            "pages/image_intelligence.py",
+            label="IMAGE INTELLIGENCE",
+            icon="ðŸ–¼ï¸",
+        )
+
+        st.page_link(
+            "pages/report_analyzer.py",
+            label="REPORT ANALYZER",
+            icon="ðŸ“„",
+        )
+
+        st.page_link(
+            "pages/ai_assistant.py",
+            label="JEEVAN AI",
+            icon="ðŸ¤–",
+        )
+
+        st.page_link(
+            "pages/knowledge_center.py",
+            label="KNOWLEDGE CENTER",
+            icon="ðŸ“š",
+        )
+
+        st.page_link(
+            "pages/what_if.py",
+            label="WHAT-IF SIMULATOR",
+            icon="ðŸ§ª",
+        )
+
+        st.page_link(
+            "pages/analytics.py",
+            label="ANALYTICS",
+            icon="ðŸ“Š",
+        )
+
+        st.page_link(
+            "pages/settings.py",
+            label="SETTINGS",
+            icon="âš™ï¸",
+        )
+
+        st.divider()
+
+        st.caption("JEEVAN-NETRA 2.0")
+
+        st.caption(
+            "Community Risk & Response Intelligence"
+        )
+

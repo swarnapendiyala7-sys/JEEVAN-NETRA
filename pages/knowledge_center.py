@@ -15,7 +15,7 @@ if str(BASE_DIR) not in sys.path:
 # IMPORTS
 # ---------------------------------------------------------
 from rag.retriever import KnowledgeRetriever
-from src.ui_theme import apply_theme
+from src.ui_theme import apply_theme, render_sidebar
 
 # ---------------------------------------------------------
 # PAGE CONFIG
@@ -30,6 +30,7 @@ st.set_page_config(
 # GLOBAL THEME
 # ---------------------------------------------------------
 apply_theme()
+render_sidebar()
 
 # ---------------------------------------------------------
 # PAGE-SPECIFIC STYLE

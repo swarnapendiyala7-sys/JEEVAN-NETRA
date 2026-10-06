@@ -25,9 +25,10 @@ st.set_page_config(
 # ============================================================
 # GLOBAL THEME
 # ============================================================
-from src.ui_theme import apply_theme
+from src.ui_theme import apply_theme, render_sidebar
 
 apply_theme()
+render_sidebar()
 
 # ============================================================
 # PAGE-SPECIFIC STYLE

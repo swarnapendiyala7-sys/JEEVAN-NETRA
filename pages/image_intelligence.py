@@ -13,7 +13,7 @@ if str(BASE_DIR) not in sys.path:
 
 from src.vision.image_analyzer import analyze_image
 from src.risk_engine import calculate_risk
-from src.ui_theme import apply_theme
+from src.ui_theme import apply_theme, render_sidebar
 
 
 # =========================================================
@@ -27,6 +27,7 @@ st.set_page_config(
 )
 
 apply_theme()
+render_sidebar()
 
 
 # =========================================================
