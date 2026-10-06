@@ -10,7 +10,6 @@ def apply_theme():
            JEEVAN-NETRA GLOBAL THEME
            ===================================================== */
 
-        /* Main application */
         .stApp {
             background:
                 radial-gradient(
@@ -164,8 +163,7 @@ def apply_theme():
 
         div[data-testid="stMetric"]:hover {
             transform: translateY(-3px);
-            border-color:
-                rgba(70, 210, 255, 0.55);
+            border-color: rgba(70, 210, 255, 0.55);
             box-shadow:
                 0 15px 40px rgba(0, 170, 255, 0.12);
         }
@@ -328,7 +326,7 @@ def render_sidebar():
 
     with st.sidebar:
 
-        st.title("ðŸ›¡ï¸ JEEVAN-NETRA")
+        st.title("🛡️ JEEVAN-NETRA")
 
         st.caption(
             "AI-POWERED COMMUNITY INTELLIGENCE"
@@ -336,14 +334,14 @@ def render_sidebar():
 
         st.divider()
 
-        st.success("â— Platform Online")
+        st.success("● Platform Online")
 
         st.caption("SYSTEM STATUS")
 
-        st.write("ðŸ§  AI Engine â€” Ready")
-        st.write("ðŸ“Š Risk Engine â€” Ready")
-        st.write("ðŸ”Ž RAG Engine â€” Ready")
-        st.write("ðŸ—ºï¸ Risk Mapping â€” Ready")
+        st.write("🧠 AI Engine — Ready")
+        st.write("📊 Risk Engine — Ready")
+        st.write("🔎 RAG Engine — Ready")
+        st.write("🗺️ Risk Mapping — Ready")
 
         st.divider()
 
@@ -358,61 +356,61 @@ def render_sidebar():
         st.page_link(
             "pages/risk_map.py",
             label="RISK MAP",
-            icon="ðŸ—ºï¸",
+            icon="🗺️",
         )
 
         st.page_link(
             "pages/incidents.py",
             label="INCIDENTS",
-            icon="ðŸš¨",
+            icon="🚨",
         )
 
         st.page_link(
             "pages/predictions.py",
             label="PREDICTIONS",
-            icon="ðŸ“ˆ",
+            icon="📈",
         )
 
         st.page_link(
             "pages/image_intelligence.py",
             label="IMAGE INTELLIGENCE",
-            icon="ðŸ–¼ï¸",
+            icon="🖼️",
         )
 
         st.page_link(
             "pages/report_analyzer.py",
             label="REPORT ANALYZER",
-            icon="ðŸ“„",
+            icon="📄",
         )
 
         st.page_link(
             "pages/ai_assistant.py",
             label="JEEVAN AI",
-            icon="ðŸ¤–",
+            icon="🤖",
         )
 
         st.page_link(
             "pages/knowledge_center.py",
             label="KNOWLEDGE CENTER",
-            icon="ðŸ“š",
+            icon="📚",
         )
 
         st.page_link(
             "pages/what_if.py",
             label="WHAT-IF SIMULATOR",
-            icon="ðŸ§ª",
+            icon="🧪",
         )
 
         st.page_link(
             "pages/analytics.py",
             label="ANALYTICS",
-            icon="ðŸ“Š",
+            icon="📊",
         )
 
         st.page_link(
             "pages/settings.py",
             label="SETTINGS",
-            icon="âš™ï¸",
+            icon="⚙️",
         )
 
         st.divider()
@@ -422,4 +420,4 @@ def render_sidebar():
         st.caption(
             "Community Risk & Response Intelligence"
         )
-
+ 
